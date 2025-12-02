@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation | Jujutsu Kaisen Theme</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --gojo-blue: #4169e1;
+            --infinity-purple: #9370db;
+            --cursed-red: #ff4757;
+            --dark-bg: #0a0a2a;
+            --darker-bg: #1a1a3a;
+            --text-light: #f0f0f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark-bg), var(--darker-bg));
+            color: var(--text-light);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Custom Cursor */
+        body {
+            cursor: none;
+        }
+        
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gojo-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+        
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            background: rgba(65, 105, 225, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+        }
+        
+        /* Cover Page */
+        #cover-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--dark-bg), var(--darker-bg));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .cover-content {
+            text-align: center;
+            z-index: 10;
+            padding: 2rem;
+            max-width: 800px;
+        }
+        
+        .cover-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--gojo-blue);
+            text-shadow: 0 0 10px rgba(65, 105, 225, 0.7);
+            font-family: 'Arial Black', sans-serif;
+        }
+        
+        .guest-name {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--infinity-purple);
+            text-shadow: 0 0 8px rgba(147, 112, 219, 0.7);
+        }
+        
+        .buka-button {
+            background: var(--cursed-red);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
+            font-weight: bold;
+            margin-top: 2rem;
+        }
+        
+        .buka-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.8);
+        }
+        
+        .instructions {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Main Content */
+        #main-content {
+            display: none;
+            padding: 2rem;
+        }
+        
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--gojo-blue);
+            text-shadow: 0 0 10px rgba(65, 105, 225, 0.5);
+        }
+        
+        /* Home Section */
+        #home {
+            text-align: center;
+        }
+        
+        .greeting {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .biodata-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        
+        .biodata-card {
+            background: rgba(26, 26, 58, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--gojo-blue);
+        }
+        
+        .biodata-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--gojo-blue), var(--infinity-purple));
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .biodata-name {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: var(--infinity-purple);
+        }
+        
+        .biodata-parents {
+            margin: 0.5rem 0;
+            color: #ccc;
+        }
+        
+        .instagram-link {
+            color: #e4405f;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .countdown-item {
+            background: rgba(65, 105, 225, 0.2);
+            border: 1px solid var(--gojo-blue);
+            border-radius: 10px;
+            padding: 1rem;
+            min-width: 80px;
+        }
+        
+        .countdown-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--gojo-blue);
+        }
+        
+        .countdown-label {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        /* Ceremony & Reception */
+        .event-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .event-card {
+            background: rgba(26, 26, 58, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--infinity-purple);
+        }
+        
+        .event-title {
+            color: var(--infinity-purple);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .event-details {
+            margin: 1rem 0;
+        }
+        
+        .event-detail {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .event-detail i {
+            color: var(--gojo-blue);
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+        
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        /* Timeline */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--gojo-blue);
+        }
+        
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+            width: 50%;
+            padding: 1rem;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            background: rgba(26, 26, 58, 0.7);
+            border: 1px solid var(--infinity-purple);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        
+        .timeline-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--gojo-blue), var(--infinity-purple));
+        }
+        
+        .timeline-title {
+            color: var(--infinity-purple);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-date {
+            color: var(--gojo-blue);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Guest Book */
+        .guestbook-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .guestbook-comments {
+            margin-bottom: 2rem;
+        }
+        
+        .comment {
+            background: rgba(26, 26, 58, 0.7);
+            border: 1px solid var(--gojo-blue);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .comment::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            border: 10px solid transparent;
+            border-bottom-color: rgba(26, 26, 58, 0.7);
+            border-top: 0;
+            margin-left: -10px;
+        }
+        
+        .comment-name {
+            font-weight: bold;
+            color: var(--infinity-purple);
+            margin-bottom: 0.5rem;
+        }
+        
+        .comment-text {
+            color: #ddd;
+        }
+        
+        .guestbook-form {
+            background: rgba(26, 26, 58, 0.7);
+            border: 1px solid var(--infinity-purple);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gojo-blue);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: rgba(10, 10, 42, 0.8);
+            color: white;
+        }
+        
+        .submit-btn {
+            background: var(--cursed-red);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: #ff2e43;
+            transform: translateY(-2px);
+        }
+        
+        /* RSVP */
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(26, 26, 58, 0.7);
+            border: 1px solid var(--gojo-blue);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        /* Love Gift */
+        .gift-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .gift-card {
+            background: rgba(26, 26, 58, 0.7);
+            border: 1px solid var(--infinity-purple);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 350px;
+            text-align: center;
+        }
+        
+        .bank-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .account-number {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.8rem;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        .copy-btn {
+            background: var(--gojo-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 42, 0.9);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--gojo-blue);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .credit {
+            color: var(--infinity-purple);
+            margin-bottom: 1rem;
+        }
+        
+        .hashtag {
+            color: var(--gojo-blue);
+            margin-top: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cover-title {
+                font-size: 1.8rem;
+            }
+            
+            .guest-name {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .biodata-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .event-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 60px;
+                padding-right: 25px;
+                left: 0 !important;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .gift-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 100%;
+            border: 2px solid var(--gojo-blue);
+            border-radius: 5px;
+        }
+        
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Cover Page with 3D Animation -->
+    <div id="cover-page">
+        <div id="canvas-container"></div>
+        <div class="cover-content">
+            <h1 class="cover-title">The Wedding of [Groom's Name] & [Bride's Name]</h1>
+            <h2 class="guest-name">Untuk: <span id="guest-display">Tamu</span></h2>
+            <button class="buka-button pulse" id="buka-button">Buka Undangan</button>
+            <p class="instructions">Edit name in URL: ?guest=YourName</p>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Home Section -->
+        <section id="home">
+            <h2 class="section-title">Home</h2>
+            <p class="greeting fade-in">Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan resepsi pernikahan putra-putri kami dalam rangka membentuk rumah tangga yang sakral dan abadi.</p>
+            
+            <div class="biodata-container">
+                <div class="biodata-card fade-in">
+                    <div class="biodata-image">
+                        <i class="fas fa-male"></i>
+                    </div>
+                    <h3 class="biodata-name">[Groom's Name]</h3>
+                    <p class="biodata-parents">Son of [Father's Name] & [Mother's Name]</p>
+                    <a href="#" class="instagram-link">
+                        <i class="fab fa-instagram"></i> @groom_instagram
+                    </a>
+                </div>
+                
+                <div class="biodata-card fade-in">
+                    <div class="biodata-image">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <h3 class="biodata-name">[Bride's Name]</h3>
+                    <p class="biodata-parents">Daughter of [Father's Name] & [Mother's Name]</p>
+                    <a href="#" class="instagram-link">
+                        <i class="fab fa-instagram"></i> @bride_instagram
+                    </a>
+                </div>
+            </div>
+            
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-value" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Ceremony & Reception -->
+        <section id="ceremony">
+            <h2 class="section-title">Domain Expansion: Sacred Vows</h2>
+            
+            <div class="event-container">
+                <div class="event-card fade-in">
+                    <h3 class="event-title">Wedding Ceremony</h3>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <i class="fas fa-calendar"></i>
+                            <span>Date: June 15, 2024</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>Time: 10:00 AM</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Venue: Sacred Temple Hall</span>
+                        </div>
+                        <div class="event-detail">
+                            <span>Address: 123 Anime Street, Tokyo</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="event-card fade-in">
+                    <h3 class="event-title">Domain Expansion: Celebration Infinity</h3>
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <i class="fas fa-calendar"></i>
+                            <span>Date: June 15, 2024</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>Time: 03:00 PM</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Venue: Infinity Reception Hall</span>
+                        </div>
+                        <div class="event-detail">
+                            <span>Address: 456 Cursed Street, Tokyo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gallery -->
+        <section id="gallery">
+            <h2 class="section-title">Cursed Technique Showcase</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox('https://via.placeholder.com/300x300/4169e1/ffffff?text=Photo+1')">
+                    <img src="https://via.placeholder.com/300x300/4169e1/ffffff?text=Photo+1" alt="Gallery 1">
+                    <div class="gallery-caption">Special Moment 1</div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://via.placeholder.com/300x300/9370db/ffffff?text=Photo+2')">
+                    <img src="https://via.placeholder.com/300x300/9370db/ffffff?text=Photo+2" alt="Gallery 2">
+                    <div class="gallery-caption">Special Moment 2</div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://via.placeholder.com/300x300/ff4757/ffffff?text=Photo+3')">
+                    <img src="https://via.placeholder.com/300x300/ff4757/ffffff?text=Photo+3" alt="Gallery 3">
+                    <div class="gallery-caption">Special Moment 3</div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox('https://via.placeholder.com/300x300/4169e1/ffffff?text=Photo+4')">
+                    <img src="https://via.placeholder.com/300x300/4169e1/ffffff?text=Photo+4" alt="Gallery 4">
+                    <div class="gallery-caption">Special Moment 4</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Our Story -->
+        <section id="story">
+            <h2 class="section-title">Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-image"></div>
+                        <h3 class="timeline-title">First Encounter</h3>
+                        <div class="timeline-date">January 2020</div>
+                        <p>Our paths crossed in the most unexpected way, like two cursed energies drawn together by fate.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-image"></div>
+                        <h3 class="timeline-title">Training Together</h3>
+                        <div class="timeline-date">March 2021</div>
+                        <p>We grew stronger together, learning to control our powers and deepen our bond.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-image"></div>
+                        <h3 class="timeline-title">Special Grade Bond</h3>
+                        <div class="timeline-date">July 2022</div>
+                        <p>Our connection reached a new level, one that transcends ordinary relationships.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <div class="timeline-image"></div>
+                        <h3 class="timeline-title">Eternal Vow</h3>
+                        <div class="timeline-date">June 2024</div>
+                        <p>Today we make our commitment eternal, in the presence of those we cherish.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Guest Book -->
+        <section id="guestbook">
+            <h2 class="section-title">Guest Book</h2>
+            <div class="guestbook-container">
+                <div class="guestbook-comments" id="comments-container">
+                    <!-- Comments will be loaded here -->
+                </div>
+                
+                <div class="guestbook-form">
+                    <div class="form-group">
+                        <label for="comment-name">Name</label>
+                        <input type="text" id="comment-name" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="comment-text">Message</label>
+                        <textarea id="comment-text" rows="4" placeholder="Leave a blessing or message..."></textarea>
+                    </div>
+                    <button class="submit-btn" onclick="addComment()">Submit Blessing</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- RSVP -->
+        <section id="rsvp">
+            <h2 class="section-title">RSVP</h2>
+            <div class="rsvp-form">
+                <div class="form-group">
+                    <label for="rsvp-name">Full Name</label>
+                    <input type="text" id="rsvp-name" placeholder="Your Full Name">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="attendance">Attendance</label>
+                        <select id="attendance">
+                            <option value="attending">Attending</option>
+                            <option value="not-attending">Not Attending</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guests">Number of Guests</label>
+                        <input type="number" id="guests" min="1" value="1">
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="sendRSVP()">Confirm Attendance</button>
+            </div>
+        </section>
+        
+        <!-- Love Gift -->
+        <section id="gift">
+            <h2 class="section-title">Love Gift</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Your presence is our greatest gift, but if you wish to bless us further, here are our accounts.</p>
+            
+            <div class="gift-container">
+                <div class="gift-card fade-in">
+                    <div class="bank-logo">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3>BCA</h3>
+                    <p>[Account Holder Name]</p>
+                    <div class="account-number" id="bca-account">
+                        1234567890
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('bca-account')">Copy Account Number</button>
+                </div>
+                
+                <div class="gift-card fade-in">
+                    <div class="bank-logo">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <h3>Mandiri</h3>
+                    <p>[Account Holder Name]</p>
+                    <div class="account-number" id="mandiri-account">
+                        0987654321
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('mandiri-account')">Copy Account Number</button>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="credit">Wedding Invitation by bimaraweb.com</p>
+            <p>With love and gratitude, we thank you for being part of our special day.</p>
+            <p class="hashtag">#GojoWedding2024 #JujutsuKaisen #InfinityLove</p>
+        </div>
+    </footer>
+    
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Enlarged view">
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Three.js scene for cover page
+        let scene, camera, renderer, particles = [];
+        
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            
+            camera.position.z = 5;
+            
+            // Create floating geometric shapes (Gojo's Infinity Domain effect)
+            const geometry = new THREE.IcosahedronGeometry(0.2, 0);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x4169e1,
+                wireframe: true
+            });
+            
+            for (let i = 0; i < 50; i++) {
+                const cube = new THREE.Mesh(geometry, material);
+                cube.position.x = (Math.random() - 0.5) * 10;
+                cube.position.y = (Math.random() - 0.5) * 10;
+                cube.position.z = (Math.random() - 0.5) * 10;
+                cube.rotation.x = Math.random() * Math.PI;
+                cube.rotation.y = Math.random() * Math.PI;
+                scene.add(cube);
+                particles.push({
+                    mesh: cube,
+                    speedX: (Math.random() - 0.5) * 0.01,
+                    speedY: (Math.random() - 0.5) * 0.01,
+                    speedZ: (Math.random() - 0.5) * 0.01
+                });
+            }
+            
+            // Add blue energy particles
+            const particleGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+            const particleMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0x9370db,
+                transparent: true,
+                opacity: 0.7
+            });
+            
+            for (let i = 0; i < 100; i++) {
+                const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+                particle.position.x = (Math.random() - 0.5) * 15;
+                particle.position.y = (Math.random() - 0.5) * 15;
+                particle.position.z = (Math.random() - 0.5) * 15;
+                scene.add(particle);
+                particles.push({
+                    mesh: particle,
+                    speedX: (Math.random() - 0.5) * 0.02,
+                    speedY: (Math.random() - 0.5) * 0.02,
+                    speedZ: (Math.random() - 0.5) * 0.02
+                });
+            }
+            
+            animate();
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            particles.forEach(particle => {
+                particle.mesh.rotation.x += particle.speedX * 2;
+                particle.mesh.rotation.y += particle.speedY * 2;
+                particle.mesh.position.x += particle.speedX;
+                particle.mesh.position.y += particle.speedY;
+                particle.mesh.position.z += particle.speedZ;
+                
+                // Reset position if out of bounds
+                if (Math.abs(particle.mesh.position.x) > 8) particle.mesh.position.x = -particle.mesh.position.x * 0.8;
+                if (Math.abs(particle.mesh.position.y) > 8) particle.mesh.position.y = -particle.mesh.position.y * 0.8;
+                if (Math.abs(particle.mesh.position.z) > 8) particle.mesh.position.z = -particle.mesh.position.z * 0.8;
+            });
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Custom cursor
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.querySelector('.cursor');
+            const follower = document.querySelector('.cursor-follower');
+            
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                follower.style.left = e.clientX + 'px';
+                follower.style.top = e.clientY + 'px';
+            }, 50);
+        });
+        
+        // URL Parameter Handling
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name) || 'Tamu';
+        }
+        
+        // Display guest name from URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const guestName = getUrlParameter('guest');
+            document.getElementById('guest-display').textContent = guestName;
+            
+            // Set RSVP name to guest name by default
+            document.getElementById('rsvp-name').value = guestName;
+            
+            // Initialize Three.js
+            initThreeJS();
+            
+            // Load comments from localStorage
+            loadComments();
+            
+            // Set up countdown timer
+            setupCountdown();
+        });
+        
+        // Cover page unlock
+        document.getElementById('buka-button').addEventListener('click', () => {
+            document.getElementById('cover-page').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            
+            // Add fade-in animation to sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.classList.add('fade-in');
+                }, index * 200);
+            });
+        });
+        
+        // Countdown Timer
+        function setupCountdown() {
+            // Set wedding date (example: June 15, 2024)
+            const weddingDate = new Date('June 15, 2024 10:00:00').getTime();
+            
+            const countdownFunction = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = weddingDate - now;
+                
+                if (distance < 0) {
+                    clearInterval(countdownFunction);
+                    document.getElementById('days').textContent = '00';
+                    document.getElementById('hours').textContent = '00';
+                    document.getElementById('minutes').textContent = '00';
+                    document.getElementById('seconds').textContent = '00';
+                    return;
+                }
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+        
+        // Guest Book Functionality
+        function loadComments() {
+            const commentsContainer = document.getElementById('comments-container');
+            const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+            
+            commentsContainer.innerHTML = '';
+            
+            comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <div class="comment-name">${comment.name}</div>
+                    <div class="comment-text">${comment.message}</div>
+                `;
+                commentsContainer.appendChild(commentElement);
+            });
+        }
+        
+        function addComment() {
+            const nameInput = document.getElementById('comment-name');
+            const messageInput = document.getElementById('comment-text');
+            
+            if (!nameInput.value.trim() || !messageInput.value.trim()) {
+                alert('Please fill in both name and message fields');
+                return;
+            }
+            
+            const newComment = {
+                name: nameInput.value.trim(),
+                message: messageInput.value.trim(),
+                timestamp: new Date().toISOString()
+            };
+            
+            let comments = JSON.parse(localStorage.getItem('comments') || '[]');
+            comments.push(newComment);
+            localStorage.setItem('comments', JSON.stringify(comments));
+            
+            // Clear inputs
+            nameInput.value = '';
+            messageInput.value = '';
+            
+            // Reload comments
+            loadComments();
+        }
+        
+        // RSVP Functionality
+        function sendRSVP() {
+            const name = document.getElementById('rsvp-name').value;
+            const attendance = document.getElementById('attendance').value;
+            const guests = document.getElementById('guests').value;
+            const guestName = getUrlParameter('guest');
+            
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+            
+            // Prepare WhatsApp message
+            const status = attendance === 'attending' ? 'will be attending' : 'will not be attending';
+            const message = `Hello! This is ${guestName} confirming RSVP for ${name}. I ${status} the wedding with ${guests} guest(s).`;
+            
+            // Replace with actual WhatsApp number
+            const phoneNumber = '6281234567890'; // Example Indonesian number
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        // Copy to clipboard functionality
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Show success feedback
+                const originalText = element.textContent;
+                element.textContent = 'Copied!';
+                
+                setTimeout(() => {
+                    element.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy account number');
+            });
+        }
+        
+        // Lightbox functionality
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close lightbox when clicking outside the image
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+        
+        // Keyboard shortcut to close lightbox
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+        
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements that should animate on scroll
+        document.querySelectorAll('.biodata-card, .event-card, .gift-card, .timeline-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
